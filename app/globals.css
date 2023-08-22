@@ -17,3 +17,8 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.swiper {
+  width: 1200px;
+  height: 800px;
+}
