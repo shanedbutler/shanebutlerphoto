@@ -1,3 +1,5 @@
+import Gallery from "../gallery/gallery";
+
 const Home = () => {
 
     const images = [
@@ -10,22 +12,18 @@ const Home = () => {
             alt: "Contemporary Residential Interior Kitchen"
         },
     ];
+
+    const params = {
+        autoplay: true,
+        keyboard: true,
+        loop: true,
+        spaceBetween: 25,
+        speed: 500,
+        autoHeight: true,
+    };
     
     return (
-        <swiper-container 
-        autoplay='true'
-        keyboard='true'
-        loop='true'
-        space-between='25'
-        speed='500'
-        auto-height='true'
-        >
-            {images.map((image, i) => (
-                <swiper-slide key={i}>
-                    <img src={image.url} alt={`Shane Butler - ${image.alt}`} />
-                </swiper-slide>
-            ))}
-        </swiper-container>
+        <Gallery images={images} params={params} />
     );
 }
 
