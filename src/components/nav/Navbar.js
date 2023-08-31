@@ -5,7 +5,9 @@ const Navbar = () => {
   return (
     <div className="flex justify-between items-center h-20">
       <Link to="/">
-        Shane Butler - Architectural Photography
+        <h1 className="font-bold mt-4 text-gray-900">
+          Shane Butler - Architectural Photography
+        </h1>
       </Link>
       <ul className="hidden md:flex gap-x-6 text-black">
         <li>
