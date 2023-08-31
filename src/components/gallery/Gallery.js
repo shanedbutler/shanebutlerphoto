@@ -32,8 +32,6 @@ const Gallery = ({ images, params }) => {
     
       // Initialize swiper
       swiperRef.current.initialize();
-
-      console.log(swiperRef);
     }, [params]);
 
     return (
