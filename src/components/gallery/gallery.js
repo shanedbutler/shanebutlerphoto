@@ -37,7 +37,7 @@ const Gallery = ({ images, params }) => {
     }, [params]);
 
     return (
-        <>
+        <div className='pb-3'>
             <swiper-container init="false" ref={swiperRef} onClick={nextSlide}>
                 {images.map((image, i) => (
                     <swiper-slide key={i}>
@@ -56,7 +56,7 @@ const Gallery = ({ images, params }) => {
                     </span>
                 </div>
             )}
-        </>
+        </div>
     );
 }
 

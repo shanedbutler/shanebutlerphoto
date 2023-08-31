@@ -11,8 +11,7 @@ register();
 const App = () => {
   return (
     <Router>
-      <div className="w-full h-20 sticky top-0">
-        <div className="container mx-auto px-4 h-full">
+        <div className="container mx-auto px-4 h-screen">
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -20,7 +19,6 @@ const App = () => {
             <Route path="/architectural-interiors" element={<Interiors />} />
           </Routes>
         </div>
-      </div>
     </Router>
   );
 }
