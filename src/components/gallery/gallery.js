@@ -1,9 +1,19 @@
 import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { register } from 'swiper/element/bundle';
 
-
 const Gallery = ({ images, params }) => {
+
+    const location = useLocation();
     const swiperRef = useRef(null);
+
+    const prevSlide = () => {
+        swiperRef.current.swiper.slidePrev();
+    };
+
+    const nextSlide = () => {
+        swiperRef.current.swiper.slideNext();
+    };
     
     useEffect(() => {
       // Register Swiper web component
@@ -11,11 +21,9 @@ const Gallery = ({ images, params }) => {
     
       // Object with parameters
       const defaultParams = {
-        pagination: true,
         keyboard: true,
         loop: true,
         spaceBetween: 25,
-        autoHeight: true,
         };
     
       // Assign passed in param or default to swiper element
@@ -24,16 +32,31 @@ const Gallery = ({ images, params }) => {
     
       // Initialize swiper
       swiperRef.current.initialize();
-    }, []);
+
+      console.log(swiperRef);
+    }, [params]);
 
     return (
-        <swiper-container init="false" ref={swiperRef}>
-            {images.map((image, i) => (
-                <swiper-slide key={i}>
-                    <img src={image.url} alt={`Shane Butler - ${image.alt}`} />
-                </swiper-slide>
-            ))}
-        </swiper-container>
+        <>
+            <swiper-container init="false" ref={swiperRef} onClick={nextSlide}>
+                {images.map((image, i) => (
+                    <swiper-slide key={i}>
+                        <img src={image.url} alt={`Shane Butler - ${image.alt}`} />
+                    </swiper-slide>
+                ))}
+            </swiper-container>
+            {location.pathname !== "/" && (
+                <div className="flex justify-center items-center mt-2 text-sm">
+                    <span className='mr-1 cursor-pointer' onClick={prevSlide}>
+                        Previous
+                    </span>
+                    /
+                    <span className='ml-1 cursor-pointer' onClick={nextSlide}>
+                        Next
+                    </span>
+                </div>
+            )}
+        </>
     );
 }
 
