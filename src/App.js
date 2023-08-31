@@ -3,8 +3,13 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Navbar from './components/navbar';
 import About from './components/about/about';
 import Home from './components/home/home';
+import Interiors from './components/architectural/interiors';
+import { register } from 'swiper/element/bundle';
 
-function App() {
+// Register Swiper custom elements
+register();
+
+const App = () => {
   return (
     <Router>
       <div className="w-full h-20 sticky top-0">
@@ -13,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/architectural-interiors" element={<Interiors />} />
           </Routes>
         </div>
       </div>
