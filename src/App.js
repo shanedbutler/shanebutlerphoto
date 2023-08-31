@@ -1,7 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import About from './components/about/About';
 import Home from './components/home/Home';
+import About from './components/about/About';
 import Interiors from './components/architectural/Interiors';
 import { register } from 'swiper/element/bundle';
 
