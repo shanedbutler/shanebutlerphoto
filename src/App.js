@@ -1,9 +1,8 @@
-import './App.css';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import Navbar from './components/navbar';
-import About from './components/about/about';
-import Home from './components/home/home';
-import Interiors from './components/architectural/interiors';
+import Navbar from './components/Navbar';
+import About from './components/about/About';
+import Home from './components/home/Home';
+import Interiors from './components/architectural/Interiors';
 import { register } from 'swiper/element/bundle';
 
 // Register Swiper custom elements

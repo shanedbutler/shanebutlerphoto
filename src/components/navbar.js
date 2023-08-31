@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <div className="flex justify-between items-center h-full">
       <Link to="/">
-        Shane Butler
+        Shane Butler - Architectural Photography
       </Link>
       <ul className="hidden md:flex gap-x-6 text-black">
         <li>

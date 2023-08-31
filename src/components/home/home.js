@@ -1,4 +1,4 @@
-import Gallery from "../gallery/gallery";
+import Gallery from "../gallery/Gallery";
 
 const Home = () => {
 
