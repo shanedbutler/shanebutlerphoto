@@ -28,7 +28,9 @@ const About = () => {
                 </p>
                 <h2 className="font-bold mt-4 text-gray-900">Contact Shane</h2>
                 <p className="mt-4 text-gray-500">
-                    <a className='hover:text-gray-600' href="mailto:shanedbutler@gmail.com" target="_blank">shanedbutler@gmail.com</a>
+                    <a className='hover:text-gray-600' href="mailto:shanedbutler@gmail.com" target="_blank" rel="noreferrer">
+                        shanedbutler@gmail.com
+                    </a>
                 </p>
             </div>
         </div>
