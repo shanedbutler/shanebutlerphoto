@@ -1,12 +1,10 @@
 const About = () => {
     return (
         <div className="grid grid-cols-1 gap-x-8 gap-y-16 pb-3 lg:max-w-7xl sm:grid-cols-2">
-            <div className="mt-12">
-                <img
-                    src="https://res.cloudinary.com/dgxomkis0/image/upload/v1693512882/about/shane_butler_headshot_xqukt1.jpg"
-                    alt="Shane Butler Headshot Portrait"
-                />
-            </div>
+            <img
+                src="https://res.cloudinary.com/dgxomkis0/image/upload/v1693512882/about/shane_butler_headshot_xqukt1.jpg"
+                alt="Shane Butler Headshot Portrait"
+            />
             <div>
                 <h2 className="font-bold text-gray-900">About Shane</h2>
                 <p className="mt-4 text-gray-500">
@@ -25,12 +23,12 @@ const About = () => {
                 <p className="mt-4 text-gray-500">
                     Shane is the recipient of a Virginia Museum of Fine Arts Fellowship Award and was included in the
                     2009 PDN Photo Annual. His personal work has been shown at Virginia Museum of Contemporary Art.
-                    Other interests include film, cooking and birding. To discuss capturing your next project or for any 
+                    Other interests include film, cooking and birding. To discuss capturing your next project or for any
                     additional information:
                 </p>
                 <h2 className="font-bold mt-4 text-gray-900">Contact Shane</h2>
                 <p className="mt-4 text-gray-500">
-                    <a href="mailto:shanedbutler@gmail.com" target="_blank">shanedbutler@gmail.com</a>
+                    <a className='hover:text-gray-600' href="mailto:shanedbutler@gmail.com" target="_blank">shanedbutler@gmail.com</a>
                 </p>
             </div>
         </div>
