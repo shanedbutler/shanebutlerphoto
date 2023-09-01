@@ -32,8 +32,8 @@ const Navbar = () => {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <h1 className="flex flex-shrink-0 items-center">
+              <div className="flex flex-1 items-stretch sm:justify-start">
+                <h1 className="flex flex-shrink-0">
                   <Link className='hover:text-gray-600' to="/">
                     Shane Butler Architectural Photographer
                   </Link>
