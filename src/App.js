@@ -4,6 +4,7 @@ import Home from './components/home/Home';
 import About from './components/about/About';
 import Interiors from './components/architectural/Interiors';
 import { register } from 'swiper/element/bundle';
+import PointOfSale from './components/personal/PointOfSale';
 
 // Register Swiper custom elements
 register();
@@ -17,6 +18,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/architectural-interiors" element={<Interiors />} />
+            <Route path="/point-of-sale" element={<PointOfSale />} />
           </Routes>
         </div>
     </Router>

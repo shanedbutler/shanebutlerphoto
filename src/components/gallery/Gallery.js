@@ -44,7 +44,7 @@ const Gallery = ({ images, params }) => {
                 ))}
             </swiper-container>
             {location.pathname !== "/" && (
-                <div className="flex justify-center items-center mt-2 text-sm">
+                <div className="flex justify-center items-center mt-3 text-sm">
                     <span className='mr-1 cursor-pointer' onClick={prevSlide}>
                         Previous
                     </span>
