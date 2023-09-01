@@ -1,6 +1,6 @@
 const About = () => {
     return (
-        <div className="grid grid-cols-1 gap-x-8 gap-y-16 pb-3 lg:max-w-7xl sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-6 pb-3 lg:max-w-7xl sm:grid-cols-2">
             <img
                 src="https://res.cloudinary.com/dgxomkis0/image/upload/v1693512882/about/shane_butler_headshot_xqukt1.jpg"
                 alt="Shane Butler Headshot Portrait"
