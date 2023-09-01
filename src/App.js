@@ -12,7 +12,7 @@ register();
 const App = () => {
   return (
     <Router>
-        <div className="container mx-auto px-4 h-screen">
+        <div className="container mx-auto max-w-screen-xl sm:px-8 px-3 h-screen">
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
