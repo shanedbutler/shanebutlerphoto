@@ -3,11 +3,7 @@ import Navbar from './components/nav/Navbar';
 import Home from './components/home/Home';
 import About from './components/about/About';
 import Interiors from './components/architectural/Interiors';
-import { register } from 'swiper/element/bundle';
 import PointOfSale from './components/personal/PointOfSale';
-
-// Register Swiper custom elements
-register();
 
 const App = () => {
   return (
