@@ -1,4 +1,4 @@
-export const Logout = ({ onLogout }) => {
+export const Options = ({ onLogout }) => {
     return (
         <div className="flex justify-center py-4 px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-md space-y-4">

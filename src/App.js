@@ -1,31 +1,20 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import Navbar from './components/nav/Navbar';
-import Home from './components/home/Home';
-import About from './components/about/About';
-import Interiors from './components/architectural/Interiors';
-import PointOfSale from './components/personal/PointOfSale';
+import { Navbar } from './components/nav/Navbar';
+import { Home } from './components/home/Home';
+import { About } from './components/about/About';
+import { Interiors } from './components/architectural/Interiors';
+import { PointOfSale } from './components/personal/PointOfSale';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from 'react';
-import { Logout } from './components/admin/Logout';
 import { Login } from './components/admin/Login';
+import { Options } from './components/admin/Options';
 
-
-const App = () => {
+export const App = () => {
   const [user, setUser] = useState(null);
-  
+
   // Initialize Firebase Auth
   const auth = getAuth();
-  
-  useEffect(() => {
-    // Listen for changes to the user authentication state
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-  
-    // Unsubscribe from the listener when the component unmounts
-    return () => unsubscribe();
-  }, []);
-  
+
   const handleLogout = async () => {
     try {
       // Sign out the user
@@ -34,6 +23,16 @@ const App = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    // Listen for changes to the user authentication state
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    // Unsubscribe from the listener when the component unmounts
+    return () => unsubscribe();
+  }, []);
 
   return (
     <Router>
@@ -44,14 +43,13 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/architectural-interiors" element={<Interiors />} />
           <Route path="/point-of-sale" element={<PointOfSale />} />
-          <Route path="/login" element={<Login auth={auth} />} />
-          {user &&
-            <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
+          {user ?
+            <Route path="/admin" element={<Options onLogout={handleLogout} />} />
+            :
+            <Route path="/admin" element={<Login auth={auth} />} />
           }
         </Routes>
       </div>
     </Router>
   );
 }
-
-export default App;
