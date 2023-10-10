@@ -2,13 +2,17 @@ import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+export const Navbar = ({ user }) => {
 
   const navigation = [
     { name: 'Architectural', route: '/architectural-interiors', current: false },
     { name: 'Personal', route: '/point-of-sale', current: false },
     { name: 'About', route: '/about', current: false },
   ]
+
+  if (user) {
+    navigation.push({ name: 'Admin', route: '/admin', current: false });
+  }
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -83,5 +87,3 @@ const Navbar = () => {
     </Disclosure>
   );
 };
-
-export default Navbar;

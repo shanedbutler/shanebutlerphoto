@@ -1,6 +1,6 @@
-import Gallery from "../gallery/Gallery";
+import { Gallery } from "../gallery/Gallery";
 
-const Home = () => {
+export const Home = () => {
 
     const images = [
         {
@@ -26,5 +26,3 @@ const Home = () => {
         <Gallery images={images} params={params} />
     );
 }
-
-export default Home;
