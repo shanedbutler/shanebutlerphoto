@@ -53,7 +53,7 @@ export const ForgotPasswordModal = ({
                                             <div className="mt-2">
                                                 <p className="text-sm text-gray-500">
                                                     If there's an account associated with {email},
-                                                    you will be send an email to reset
+                                                    you will be sent an email to reset
                                                     your password.
                                                 </p>
                                             </div>
