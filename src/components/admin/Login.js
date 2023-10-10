@@ -1,23 +1,24 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { ForgotPasswordModal } from './ForgotPasswordModal';
 
 export const Login = ({ auth }) => {
     const [modalOpen, setModalOpen] = useState(false);
-
-    const emailRef = useRef();
-    const passwordRef = useRef();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (!emailRef.current || !emailRef.current.value) {
+        if (!email) {
             alert("Please enter your email address.");
             return;
         }
-        const email = emailRef.current.value;
-        const pw = passwordRef.current.value;
+        if (!password) {
+            alert("Please enter your password.");
+            return;
+        }
         try {
-            await signInWithEmailAndPassword(auth, email, pw);
+            await signInWithEmailAndPassword(auth, email, password);
             //setLocalUser(user);
         } catch (error) {
             console.error(error);
@@ -26,7 +27,7 @@ export const Login = ({ auth }) => {
 
     const handleOpenRecoveryModal = (e) => {
         e.preventDefault();
-        if (!emailRef.current || !emailRef.current.value) {
+        if (!email) {
             alert("Please enter your email address before requesting a password reset.");
         }
         else {
@@ -36,20 +37,15 @@ export const Login = ({ auth }) => {
 
     const handleRecovery = (e) => {
         e.preventDefault();
-        return auth.sendPasswordResetEmail(emailRef.current.value);
+        return auth.sendPasswordResetEmail(email);
     };
 
     return (
         <>
-            <div className="flex min-h-full items-center justify-center py-14 px-4 sm:px-6 lg:px-8">
-                <div className="w-full max-w-md space-y-8">
+            <div className="flex justify-center py-4 px-4 sm:px-6 lg:px-8">
+                <div className="w-full max-w-md space-y-4">
                     <div>
-                        <img
-                            className="mx-auto h-16 w-auto"
-                            src="pug.svg"
-                            alt="Your Company"
-                        />
-                        <h2 className="mt-3 text-center text-3xl font-bold tracking-tight text-gray-900">
+                        <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900">
                             Admin Login
                         </h2>
                     </div>
@@ -61,7 +57,8 @@ export const Login = ({ auth }) => {
                                     Email address
                                 </label>
                                 <input
-                                    ref={emailRef}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     id="email-address"
                                     name="email"
                                     type="email"
@@ -76,7 +73,8 @@ export const Login = ({ auth }) => {
                                     Password
                                 </label>
                                 <input
-                                    ref={passwordRef}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     id="password"
                                     name="password"
                                     type="password"
@@ -134,13 +132,13 @@ export const Login = ({ auth }) => {
                                         />
                                     </svg>
                                 </span>
-                                Login
+                                Submit
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
-            <ForgotPasswordModal open={modalOpen} setOpen={setModalOpen} email={emailRef.current.value} handleRecovery={handleRecovery} />
+            <ForgotPasswordModal open={modalOpen} setOpen={setModalOpen} email={email} handleRecovery={handleRecovery} />
         </>
     );
 };
