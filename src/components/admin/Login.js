@@ -19,7 +19,6 @@ export const Login = ({ auth }) => {
         }
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            //setLocalUser(user);
         } catch (error) {
             console.error(error);
         }

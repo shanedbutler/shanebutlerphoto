@@ -1,6 +1,6 @@
-import Gallery from "../gallery/Gallery";
+import { Gallery } from "../gallery/Gallery";
 
-const PointOfSale = () => {
+export const PointOfSale = () => {
 
     const images = [
         {
@@ -41,5 +41,3 @@ const PointOfSale = () => {
         <Gallery images={images} />
     )
 }
-
-export default PointOfSale;

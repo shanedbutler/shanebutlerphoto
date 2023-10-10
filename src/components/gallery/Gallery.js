@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { register } from 'swiper/element/bundle';
 
-const Gallery = ({ images, params }) => {
+export const Gallery = ({ images, params }) => {
 
     const location = useLocation();
     const swiperRef = useRef(null);
@@ -57,5 +57,3 @@ const Gallery = ({ images, params }) => {
         </div>
     );
 }
-
-export default Gallery;

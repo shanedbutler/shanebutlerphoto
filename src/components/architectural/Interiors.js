@@ -1,6 +1,6 @@
-import Gallery from "../gallery/Gallery";
+import { Gallery } from "../gallery/Gallery";
 
-const Interiors = () => {
+export const Interiors = () => {
 
     const images = [
         {
@@ -21,5 +21,3 @@ const Interiors = () => {
         <Gallery images={images} />
     )
 }
-
-export default Interiors;

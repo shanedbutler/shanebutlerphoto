@@ -1,4 +1,4 @@
-const About = () => {
+export const About = () => {
     return (
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 pb-3 lg:max-w-7xl sm:grid-cols-2">
             <img
@@ -36,5 +36,3 @@ const About = () => {
         </div>
     )
 }
-
-export default About;
