@@ -8,40 +8,41 @@ export const Login = ({ auth }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
 
-        if (!email) {
-            alert("Please enter your email address.");
-            return;
-        }
-        if (!password) {
-            alert("Please enter your password.");
-            return;
-        }
         try {
             await setPersistence(auth, persistence);
             await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
             console.error(error);
+            setError('Login failed, check your email and password');
         }
     };
 
     const handleOpenRecoveryModal = (e) => {
         e.preventDefault();
         if (!email) {
-            alert("Please enter your email address before requesting a password reset.");
+            setError("Please enter your email address before requesting a password reset");
         }
         else {
             setModalOpen(true);
         }
     };
 
-    const handleRecovery = (e) => {
+    const handleRecovery = async (e) => {
         e.preventDefault();
-        return sendPasswordResetEmail(auth, email);
+        try {
+            await sendPasswordResetEmail(auth, email);
+            setModalOpen(false);
+        } catch (error) {
+            console.error(error);
+            setError('Password reset failed, check your email address');
+            setModalOpen(false);
+        }
     };
 
     return (
@@ -52,6 +53,9 @@ export const Login = ({ auth }) => {
                         <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900">
                             Admin Login
                         </h2>
+                    </div>
+                    <div>
+                        {error && <p className="text-center text-red-500">{error}</p>}
                     </div>
                     <form className="mt-8 space-y-6" onSubmit={handleLogin}>
                         <input type="hidden" name="remember" value="true" />
@@ -109,12 +113,12 @@ export const Login = ({ auth }) => {
                             </div>
 
                             <div className="text-sm">
-                                <a
+                                <div
                                     className="font-medium text-indigo-600 hover:text-indigo-500"
                                     onClick={handleOpenRecoveryModal}
                                 >
                                     Forgot your password?
-                                </a>
+                                </div>
                             </div>
                         </div>
 
