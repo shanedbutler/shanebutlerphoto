@@ -16,15 +16,6 @@ export const App = () => {
   // Initialize Firebase Auth
   const auth = getAuth();
 
-  const handleLogout = async () => {
-    try {
-      // Sign out the user
-      await auth.signOut();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     // Listen for changes to the user authentication state
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -43,14 +34,14 @@ export const App = () => {
   return (
     <Router>
       <div className="container mx-auto max-w-screen-xl sm:px-8 px-3 h-screen">
-        <Navbar auth={auth} onLogout={handleLogout} user={user} />
+        <Navbar user={user} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/architectural-interiors" element={<Interiors />} />
           <Route path="/point-of-sale" element={<PointOfSale />} />
           {user ?
-            <Route path="/admin" element={<Options onLogout={handleLogout} />} />
+            <Route path="/admin" element={<Options auth={auth} />} />
             :
             <Route path="/admin" element={<Login auth={auth} />} />
           }
