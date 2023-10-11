@@ -1,14 +1,17 @@
 import { useState } from 'react';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail, setPersistence, signInWithEmailAndPassword } from "firebase/auth";
 import { ForgotPasswordModal } from './ForgotPasswordModal';
 
 export const Login = ({ auth }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [rememberMe, setRememberMe] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+
         if (!email) {
             alert("Please enter your email address.");
             return;
@@ -18,6 +21,7 @@ export const Login = ({ auth }) => {
             return;
         }
         try {
+            await setPersistence(auth, persistence);
             await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
             console.error(error);
@@ -36,7 +40,7 @@ export const Login = ({ auth }) => {
 
     const handleRecovery = (e) => {
         e.preventDefault();
-        return auth.sendPasswordResetEmail(email);
+        return sendPasswordResetEmail(auth, email);
     };
 
     return (
@@ -88,6 +92,8 @@ export const Login = ({ auth }) => {
                         <div className="flex items-center justify-between">
                             <div className="flex items-center">
                                 <input
+                                    value={rememberMe}
+                                    onChange={(e) => setRememberMe(e.target.checked)}
                                     id="remember-me"
                                     name="remember-me"
                                     type="checkbox"
