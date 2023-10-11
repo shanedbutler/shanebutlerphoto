@@ -5,16 +5,18 @@ import { About } from './components/about/About';
 import { Interiors } from './components/architectural/Interiors';
 import { PointOfSale } from './components/personal/PointOfSale';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 import { useEffect, useState } from 'react';
 import { Login } from './components/admin/Login';
 import { Options } from './components/admin/Options';
 
-export const App = () => {
+export const App = ({ app }) => {
   const [user, setUser] = useState(null);
   const [userResolved, setUserResolved] = useState(false);
 
-  // Initialize Firebase Auth
-  const auth = getAuth();
+  // Initialize Firebase Auth and Cloud Storage
+  const auth = getAuth(app);
+  const storage = getStorage(app);
 
   useEffect(() => {
     // Listen for changes to the user authentication state
@@ -36,10 +38,10 @@ export const App = () => {
       <div className="container mx-auto max-w-screen-xl sm:px-8 px-3 h-screen">
         <Navbar user={user} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home storage={storage} />} />
           <Route path="/about" element={<About />} />
-          <Route path="/architectural-interiors" element={<Interiors />} />
-          <Route path="/point-of-sale" element={<PointOfSale />} />
+          <Route path="/architectural-interiors" element={<Interiors storage={storage} />} />
+          <Route path="/point-of-sale" element={<PointOfSale storage={storage} />} />
           {user ?
             <Route path="/admin" element={<Options auth={auth} />} />
             :
