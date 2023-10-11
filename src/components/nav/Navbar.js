@@ -1,5 +1,5 @@
 import { Disclosure } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, CogIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from "react-router-dom";
 
 export const Navbar = ({ user }) => {
@@ -38,14 +38,14 @@ export const Navbar = ({ user }) => {
               </div>
               <div className="flex flex-1 items-stretch sm:justify-start">
                 <h1 className="flex flex-shrink-0">
-                  <Link className='hover:text-gray-600' to="/">
+                  <Link className='hover:text-gray-600' key='Home' to="/">
                     Shane Butler Architectural Photographer
                   </Link>
                 </h1>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-8">
+                  <div className="flex space-x-4 md:space-x-8">
                     {navigation.map((item) => (
                       <Link
                         key={item.name}
@@ -55,7 +55,11 @@ export const Navbar = ({ user }) => {
                         )}
                         aria-current={item.current ? 'page' : undefined}
                       >
-                        {item.name}
+                        {item.route === '/admin' ?
+                          <CogIcon className='h-6 w-6' />
+                          :
+                          item.name
+                        }
                       </Link>
                     ))}
                   </div>
@@ -67,9 +71,8 @@ export const Navbar = ({ user }) => {
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 pb-3">
               {navigation.map((item) => (
-                <Link to={item.route}>
+                <Link to={item.route} key={item.name}>
                   <Disclosure.Button
-                    key={item.name}
                     className={classNames(
                       item.current ? 'bg-gray-100' : 'hover:bg-gray-100',
                       'block ml-auto mr-0 rounded-md px-3 py-2'

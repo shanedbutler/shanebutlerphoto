@@ -11,6 +11,7 @@ import { Options } from './components/admin/Options';
 
 export const App = () => {
   const [user, setUser] = useState(null);
+  const [userResolved, setUserResolved] = useState(false);
 
   // Initialize Firebase Auth
   const auth = getAuth();
@@ -28,11 +29,16 @@ export const App = () => {
     // Listen for changes to the user authentication state
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      setUserResolved(true);
     });
 
     // Unsubscribe from the listener when the component unmounts
     return () => unsubscribe();
   }, []);
+
+  if (!userResolved) {
+    return null;
+  }
 
   return (
     <Router>
