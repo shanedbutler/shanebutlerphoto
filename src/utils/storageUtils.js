@@ -1,5 +1,11 @@
 import { ref, getDownloadURL, getMetadata, listAll } from "firebase/storage";
 
+/**
+ * Get an array of download URLs and alt text for images in a firebase storage folder
+ * @param {object} storage Firebase storage object
+ * @param {string} path Path to the folder in storage
+ * @returns Promise of an array of objects with url and alt properties
+ */
 export const getDownloadURLs = async (storage, path) => {
     const storageRef = ref(storage, path);
 
