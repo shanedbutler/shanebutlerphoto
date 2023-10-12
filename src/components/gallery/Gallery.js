@@ -39,7 +39,7 @@ export const Gallery = ({ images, params }) => {
             <swiper-container init="false" ref={swiperRef} onClick={nextSlide}>
                 {images.map((image, i) => (
                     <swiper-slide key={i}>
-                        <img src={image.url} alt={`Shane Butler - ${image.alt}`} />
+                        <img src={image.url} alt={image.alt} />
                     </swiper-slide>
                 ))}
             </swiper-container>
