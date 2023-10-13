@@ -30,7 +30,7 @@ const supabase = createClient('https://qmsgnbfkwokzqnnoitds.supabase.co', 'eyJhb
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App supabase={supabase} />
+    <App app={app} supabase={supabase} />
   </React.StrictMode>
 );
 

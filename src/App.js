@@ -7,8 +7,9 @@ import { Login } from './auth/Login';
 import { Options } from './components/admin/Options';
 import { UpdatePassword } from './auth/UpdatePassword';
 import { Gallery } from './components/gallery/Gallery';
+import { getStorage } from 'firebase/storage';
 
-export const App = ({ supabase }) => {
+export const App = ({ app, supabase }) => {
   const [session, setSession] = useState(null)
   const [sessionResolved, setSessionResolved] = useState(false);
 
@@ -22,6 +23,9 @@ export const App = ({ supabase }) => {
       setMaxWidthClass("max-w-screen-lg");
     }
   };
+
+  // Firebase storage
+  const storage = getStorage(app);
 
   /**
    * If the user is redirected back to the application from the password reset
@@ -63,10 +67,10 @@ export const App = ({ supabase }) => {
       <div className={`container mx-auto sm:px-8 px-3 h-screen ${maxWidthClass}`}>
         <Navbar session={session} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home storage={storage} />} />
           <Route path="/about" element={<About />} />
-          <Route path="/architectural-interiors" element={<Gallery storagePath="architectural" />} />
-          <Route path="/point-of-sale" element={<Gallery storagePath="personal" />} />
+          <Route path="/architectural-interiors" element={<Gallery storage={storage} storagePath="architectural" />} />
+          <Route path="/point-of-sale" element={<Gallery storage={storage} storagePath="personal" />} />
           <Route path="/update-password" element={<UpdatePassword supabase={supabase} />} />
           {session ?
             <Route path="/admin" element={<Options supabase={supabase} session={session} />} />
