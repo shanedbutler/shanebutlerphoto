@@ -18,7 +18,7 @@ export const Options = ({ supabase, session }) => {
 
         try {
             // Reauthenticate the user with their current password
-            const { user, error } = await supabase.auth.signIn({
+            const { user, error } = await supabase.auth.signInWithPassword({
                 email: session.user.email,
                 password: password
             });
@@ -28,7 +28,7 @@ export const Options = ({ supabase, session }) => {
             }
 
             // Update the user's password
-            await supabase.auth.api.updateUser(user.id, { password: newPassword });
+            await supabase.auth.updateUser({ password: newPassword });
 
             // Reset the form and show a success message
             setPassword('');
@@ -38,7 +38,6 @@ export const Options = ({ supabase, session }) => {
             setSuccess(true);
         } catch (error) {
             console.error(error);
-            setPassword('');
             setError('Change failed, try again');
         }
     };
