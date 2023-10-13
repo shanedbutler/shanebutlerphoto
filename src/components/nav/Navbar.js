@@ -1,8 +1,8 @@
+import { Link } from "react-router-dom";
 import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, CogIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link } from "react-router-dom";
 
-export const Navbar = ({ user }) => {
+export const Navbar = ({ session }) => {
 
   const navigation = [
     { name: 'Architectural', route: '/architectural-interiors', current: false },
@@ -10,7 +10,7 @@ export const Navbar = ({ user }) => {
     { name: 'About', route: '/about', current: false },
   ]
 
-  if (user) {
+  if (session) {
     navigation.push({ name: 'Admin', route: '/admin', current: false });
   }
 

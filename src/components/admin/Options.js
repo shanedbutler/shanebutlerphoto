@@ -1,8 +1,7 @@
-import { LockClosedIcon, PencilIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
-import { updatePassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { LockClosedIcon, PencilIcon } from "@heroicons/react/24/solid";
 
-export const Options = ({ auth }) => {
+export const Options = ({ supabase, session }) => {
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -17,15 +16,19 @@ export const Options = ({ auth }) => {
             return;
         }
 
-        // Get the current user
-        const user = auth.currentUser;
-
         try {
             // Reauthenticate the user with their current password
-            await signInWithEmailAndPassword(auth, user.email, password);
+            const { user, error } = await supabase.auth.signIn({
+                email: session.user.email,
+                password: password
+            });
+
+            if (error) {
+                throw error;
+            }
 
             // Update the user's password
-            await updatePassword(user, newPassword);
+            await supabase.auth.api.updateUser(user.id, { password: newPassword });
 
             // Reset the form and show a success message
             setPassword('');
@@ -43,7 +46,7 @@ export const Options = ({ auth }) => {
     const handleLogout = async () => {
         try {
             // Sign out the user
-            await auth.signOut();
+            await supabase.auth.signOut();
         } catch (error) {
             console.error(error);
             setError('Logout failed');
