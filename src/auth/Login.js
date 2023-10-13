@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail, setPersistence, signInWithEmailAndPassword } from "firebase/auth";
 import { ForgotPasswordModal } from './ForgotPasswordModal';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
 
-export const Login = ({ auth }) => {
+export const Login = ({ supabase }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -12,14 +11,20 @@ export const Login = ({ auth }) => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
-
         try {
-            await setPersistence(auth, persistence);
-            await signInWithEmailAndPassword(auth, email, password);
+            const { error } = await supabase.auth.signIn({
+                email,
+                password,
+                rememberMe,
+            }, {
+                persistSession: rememberMe ? 'LOCAL' : 'NONE',
+            });
+
+            if (error) {
+                setError(error.message);
+            }
         } catch (error) {
-            console.error(error);
-            setError('Login failed, check your email and password');
+            setError(error.message);
         }
     };
 
@@ -36,7 +41,7 @@ export const Login = ({ auth }) => {
     const handleRecovery = async (e) => {
         e.preventDefault();
         try {
-            await sendPasswordResetEmail(auth, email);
+            await supabase.auth.resetPasswordForEmail(email);
             setModalOpen(false);
         } catch (error) {
             console.error(error);
