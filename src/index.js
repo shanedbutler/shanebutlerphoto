@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { createClient } from '@supabase/supabase-js'
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
 import { initializeApp } from "firebase/app";
@@ -23,10 +24,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 getAnalytics(app);
 
+// Initialize Supabase
+const supabase = createClient('https://qmsgnbfkwokzqnnoitds.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFtc2duYmZrd29renFubm9pdGRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI2NDA5NDAsImV4cCI6MjAwODIxNjk0MH0.fdwgdSkZCbcFoypPvgpVUggyNxVnCszYauIjJSxf6Gg');
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App app={app} />
+    <App supabase={supabase} />
   </React.StrictMode>
 );
 
