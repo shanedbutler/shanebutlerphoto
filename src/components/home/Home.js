@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
 import { Gallery } from "../gallery/Gallery";
-import { getDownloadURLs } from "../../utils/storageUtils";
 
 export const Home = ({ storage }) => {
     const params = {
