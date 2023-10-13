@@ -1,46 +1,48 @@
 import { useState } from 'react';
 import { browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail, setPersistence, signInWithEmailAndPassword } from "firebase/auth";
 import { ForgotPasswordModal } from './ForgotPasswordModal';
+import { LockClosedIcon } from '@heroicons/react/24/solid';
 
 export const Login = ({ auth }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
 
-        if (!email) {
-            alert("Please enter your email address.");
-            return;
-        }
-        if (!password) {
-            alert("Please enter your password.");
-            return;
-        }
         try {
             await setPersistence(auth, persistence);
             await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
             console.error(error);
+            setError('Login failed, check your email and password');
         }
     };
 
     const handleOpenRecoveryModal = (e) => {
         e.preventDefault();
         if (!email) {
-            alert("Please enter your email address before requesting a password reset.");
+            setError("Please enter your email address before requesting a password reset");
         }
         else {
             setModalOpen(true);
         }
     };
 
-    const handleRecovery = (e) => {
+    const handleRecovery = async (e) => {
         e.preventDefault();
-        return sendPasswordResetEmail(auth, email);
+        try {
+            await sendPasswordResetEmail(auth, email);
+            setModalOpen(false);
+        } catch (error) {
+            console.error(error);
+            setError('Password reset failed, check your email address');
+            setModalOpen(false);
+        }
     };
 
     return (
@@ -51,6 +53,9 @@ export const Login = ({ auth }) => {
                         <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900">
                             Admin Login
                         </h2>
+                    </div>
+                    <div>
+                        {error && <p className="text-center text-red-500">{error}</p>}
                     </div>
                     <form className="mt-8 space-y-6" onSubmit={handleLogin}>
                         <input type="hidden" name="remember" value="true" />
@@ -108,12 +113,12 @@ export const Login = ({ auth }) => {
                             </div>
 
                             <div className="text-sm">
-                                <a
+                                <div
                                     className="font-medium text-indigo-600 hover:text-indigo-500"
                                     onClick={handleOpenRecoveryModal}
                                 >
                                     Forgot your password?
-                                </a>
+                                </div>
                             </div>
                         </div>
 
@@ -123,19 +128,10 @@ export const Login = ({ auth }) => {
                                 className="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-300 py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-violet-200 focus:bg-violet-200"
                             >
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <svg
+                                    <LockClosedIcon
                                         className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
                                         aria-hidden="true"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
+                                    />
                                 </span>
                                 Submit
                             </button>

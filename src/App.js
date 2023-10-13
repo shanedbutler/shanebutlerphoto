@@ -1,31 +1,35 @@
+import { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 import { Navbar } from './components/nav/Navbar';
 import { Home } from './components/home/Home';
 import { About } from './components/about/About';
-import { Interiors } from './components/architectural/Interiors';
-import { PointOfSale } from './components/personal/PointOfSale';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from 'react';
 import { Login } from './components/admin/Login';
 import { Options } from './components/admin/Options';
+import { Gallery } from './components/gallery/Gallery';
 
-export const App = () => {
+export const App = ({ app }) => {
   const [user, setUser] = useState(null);
   const [userResolved, setUserResolved] = useState(false);
+  const [maxWidthClass, setMaxWidthClass] = useState("max-w-screen-xl");
 
-  // Initialize Firebase Auth
-  const auth = getAuth();
+  // Initialize Firebase Auth and Cloud Storage
+  const auth = getAuth(app);
+  const storage = getStorage(app);
 
-  const handleLogout = async () => {
-    try {
-      // Sign out the user
-      await auth.signOut();
-    } catch (error) {
-      console.error(error);
+  const handleResize = () => {
+    // Update widthClass state based on viewport height
+    if (window.innerHeight > 950) {
+      setMaxWidthClass("max-w-screen-xl");
+    } else {
+      setMaxWidthClass("max-w-screen-lg");
     }
   };
 
   useEffect(() => {
+    handleResize();
+
     // Listen for changes to the user authentication state
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
@@ -42,15 +46,15 @@ export const App = () => {
 
   return (
     <Router>
-      <div className="container mx-auto max-w-screen-xl sm:px-8 px-3 h-screen">
-        <Navbar auth={auth} onLogout={handleLogout} user={user} />
+      <div className={`container mx-auto sm:px-8 px-3 h-screen ${maxWidthClass}`}>
+        <Navbar user={user} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home storage={storage} />} />
           <Route path="/about" element={<About />} />
-          <Route path="/architectural-interiors" element={<Interiors />} />
-          <Route path="/point-of-sale" element={<PointOfSale />} />
+          <Route path="/architectural-interiors" element={<Gallery storagePath="architectural" storage={storage} />} />
+          <Route path="/point-of-sale" element={<Gallery storagePath="personal" storage={storage} />} />
           {user ?
-            <Route path="/admin" element={<Options onLogout={handleLogout} />} />
+            <Route path="/admin" element={<Options auth={auth} />} />
             :
             <Route path="/admin" element={<Login auth={auth} />} />
           }
