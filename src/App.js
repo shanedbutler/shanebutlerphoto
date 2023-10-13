@@ -1,14 +1,13 @@
+import { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 import { Navbar } from './components/nav/Navbar';
 import { Home } from './components/home/Home';
 import { About } from './components/about/About';
-import { Interiors } from './components/architectural/Interiors';
-import { PointOfSale } from './components/personal/PointOfSale';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getStorage } from "firebase/storage";
-import { useEffect, useState } from 'react';
 import { Login } from './components/admin/Login';
 import { Options } from './components/admin/Options';
+import { Gallery } from './components/gallery/Gallery';
 
 export const App = ({ app }) => {
   const [user, setUser] = useState(null);
@@ -30,6 +29,7 @@ export const App = ({ app }) => {
 
   useEffect(() => {
     handleResize();
+
     // Listen for changes to the user authentication state
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
@@ -51,8 +51,8 @@ export const App = ({ app }) => {
         <Routes>
           <Route path="/" element={<Home storage={storage} />} />
           <Route path="/about" element={<About />} />
-          <Route path="/architectural-interiors" element={<Interiors storage={storage} />} />
-          <Route path="/point-of-sale" element={<PointOfSale storage={storage} />} />
+          <Route path="/architectural-interiors" element={<Gallery storagePath="architectural" storage={storage} />} />
+          <Route path="/point-of-sale" element={<Gallery storagePath="personal" storage={storage} />} />
           {user ?
             <Route path="/admin" element={<Options auth={auth} />} />
             :
