@@ -13,12 +13,23 @@ import { Options } from './components/admin/Options';
 export const App = ({ app }) => {
   const [user, setUser] = useState(null);
   const [userResolved, setUserResolved] = useState(false);
+  const [maxWidthClass, setMaxWidthClass] = useState("max-w-screen-xl");
 
   // Initialize Firebase Auth and Cloud Storage
   const auth = getAuth(app);
   const storage = getStorage(app);
 
+  const handleResize = () => {
+    // Update widthClass state based on viewport height
+    if (window.innerHeight > 950) {
+      setMaxWidthClass("max-w-screen-xl");
+    } else {
+      setMaxWidthClass("max-w-screen-lg");
+    }
+  };
+
   useEffect(() => {
+    handleResize();
     // Listen for changes to the user authentication state
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
@@ -35,7 +46,7 @@ export const App = ({ app }) => {
 
   return (
     <Router>
-      <div className="container mx-auto max-w-screen-xl sm:px-8 px-3 h-screen">
+      <div className={`container mx-auto sm:px-8 px-3 h-screen ${maxWidthClass}`}>
         <Navbar user={user} />
         <Routes>
           <Route path="/" element={<Home storage={storage} />} />
