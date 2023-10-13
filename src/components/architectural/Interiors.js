@@ -1,21 +1,18 @@
+import { useEffect, useState } from "react";
 import { Gallery } from "../gallery/Gallery";
+import { getDownloadURLs } from "../../utils/storageUtils";
 
-export const Interiors = () => {
+export const Interiors = ({ storage }) => {
+    const [images, setImages] = useState([]);
 
-    const images = [
-        {
-            url: "https://res.cloudinary.com/dgxomkis0/image/upload/v1693434630/interiors/shane_butler_photography_interiors_3_mvrqfc.jpg",
-            alt: "Modern Contemporary Residential Interior Living Room"
-        },
-        {
-            url: "https://res.cloudinary.com/dgxomkis0/image/upload/v1693434630/interiors/shane_butler_photography_interiors_2_xb22fj.jpg",
-            alt: "Modern Residential Interior Entry"
-        },
-        {
-            url: "https://res.cloudinary.com/dgxomkis0/image/upload/v1693434630/interiors/shane_butler_photography_interiors_1_lqacdf.jpg",
-            alt: "Modern Contemporary Residential Interior Kitchen"
-        }
-    ];
+    useEffect(() => {
+        // Call the getDownloadURLs function to get the array of image URLs
+        getDownloadURLs(storage, 'interiors').then((imageUrls) => {
+            setImages(imageUrls);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }, [storage]);
     
     return (
         <Gallery images={images} />
