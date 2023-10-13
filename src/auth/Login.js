@@ -2,23 +2,19 @@ import { useState } from 'react';
 import { ForgotPasswordModal } from './ForgotPasswordModal';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
 
-export const Login = ({ supabase }) => {
+export const Login = ({ auth }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [error, setError] = useState(null);
-
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const { error } = await supabase.auth.signIn({
-                email,
-                password,
-                rememberMe,
-            }, {
-                persistSession: rememberMe ? 'LOCAL' : 'NONE',
-            });
+            const { _user, error } = await auth.signInWithPassword({
+                email: email,
+                password: password
+              });
 
             if (error) {
                 setError(error.message);
@@ -41,7 +37,7 @@ export const Login = ({ supabase }) => {
     const handleRecovery = async (e) => {
         e.preventDefault();
         try {
-            await supabase.auth.resetPasswordForEmail(email);
+            await auth.resetPasswordForEmail(email);
             setModalOpen(false);
         } catch (error) {
             console.error(error);

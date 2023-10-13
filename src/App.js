@@ -41,7 +41,7 @@ export const App = ({ supabase }) => {
     handleResize();
 
     // Listen for changes to the user authentication state
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
 
@@ -53,9 +53,9 @@ export const App = ({ supabase }) => {
     };
   }, [supabase.auth]);
 
-  if (!sessionResolved) {
-    return null;
-  }
+  // if (!sessionResolved) {
+  //   return null;
+  // }
 
 
   return (
@@ -71,7 +71,7 @@ export const App = ({ supabase }) => {
           {session ?
             <Route path="/admin" element={<Options supabase={supabase} session={session} />} />
             :
-            <Route path="/admin" element={<Login supabase={supabase} />} />
+            <Route path="/admin" element={<Login auth={supabase.auth} />} />
           }
         </Routes>
       </div>
