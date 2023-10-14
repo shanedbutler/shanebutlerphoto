@@ -24,8 +24,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 getAnalytics(app);
 
+// Supabase configuration
+const apiKey = process.env.REACT_APP_SUPABASE_API_KEY;
+const url = process.env.REACT_APP_SUPABASE_URL;
+
 // Initialize Supabase
-const supabase = createClient('https://qmsgnbfkwokzqnnoitds.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFtc2duYmZrd29renFubm9pdGRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI2NDA5NDAsImV4cCI6MjAwODIxNjk0MH0.fdwgdSkZCbcFoypPvgpVUggyNxVnCszYauIjJSxf6Gg');
+const supabase = createClient(url, apiKey);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
