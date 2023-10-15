@@ -12,4 +12,4 @@ export const Home = ({ supabase }) => {
     return (
         <Gallery storagePath="home" supabase={supabase} params={params} />
     );
-}
+};

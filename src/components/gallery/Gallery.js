@@ -69,4 +69,4 @@ export const Gallery = ({ supabase, storagePath, params }) => {
             )}
         </div>
     );
-}
+};

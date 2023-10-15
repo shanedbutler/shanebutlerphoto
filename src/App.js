@@ -71,4 +71,4 @@ export const App = ({ supabase }) => {
       </div>
     </Router>
   );
-}
+};
