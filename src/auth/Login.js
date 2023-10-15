@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail, setPersistence, signInWithEmailAndPassword } from "firebase/auth";
-import { ForgotPasswordModal } from './ForgotPasswordModal';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
+import { ForgotPasswordModal } from './ForgotPasswordModal';
 
 export const Login = ({ auth }) => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -9,17 +8,20 @@ export const Login = ({ auth }) => {
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [error, setError] = useState(null);
-
+    
     const handleLogin = async (e) => {
         e.preventDefault();
-        const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
-
         try {
-            await setPersistence(auth, persistence);
-            await signInWithEmailAndPassword(auth, email, password);
+            const { _user, error } = await auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                setError(error.message);
+            }
         } catch (error) {
-            console.error(error);
-            setError('Login failed, check your email and password');
+            setError(error.message);
         }
     };
 
@@ -36,7 +38,9 @@ export const Login = ({ auth }) => {
     const handleRecovery = async (e) => {
         e.preventDefault();
         try {
-            await sendPasswordResetEmail(auth, email);
+            await auth.resetPasswordForEmail(email, {
+                redirectTo: 'https://shanebutlerphoto.com/admin/update-password',
+            });
             setModalOpen(false);
         } catch (error) {
             console.error(error);

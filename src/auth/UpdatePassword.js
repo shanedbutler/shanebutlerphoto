@@ -1,53 +1,27 @@
 import { useState } from "react";
-import { LockClosedIcon, PencilIcon } from "@heroicons/react/24/solid";
+import { PencilIcon } from "@heroicons/react/24/solid";
 
-export const Options = ({ supabase, session }) => {
-    const [password, setPassword] = useState('');
+export const UpdatePassword = ({ supabase }) => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
 
-    const handleChangePassword = async (e) => {
-        e.preventDefault();
-
-        if (newPassword !== confirmPassword) {
-            setError('Passwords do not match');
-            return;
-        }
+    const handleResetPassword = async (event) => {
+        event.preventDefault();
 
         try {
-            // Reauthenticate the user with their current password
-            const { _user, error } = await supabase.auth.signInWithPassword({
-                email: session.user.email,
-                password: password
-            });
-            if (error) {
-                throw error;
-            }
-
             // Update the user's password
             await supabase.auth.updateUser({ password: newPassword });
 
             // Reset the form and show a success message
-            setPassword('');
             setNewPassword('');
             setConfirmPassword('');
             setError(null);
             setSuccess(true);
         } catch (error) {
             console.error(error);
-            setError('Change failed, try again');
-        }
-    };
-
-    const handleLogout = async () => {
-        try {
-            // Sign out the user
-            await supabase.auth.signOut();
-        } catch (error) {
-            console.error(error);
-            setError('Logout failed');
+            setError('Update failed, try again');
         }
     };
 
@@ -56,7 +30,7 @@ export const Options = ({ supabase, session }) => {
             <div className="w-full max-w-md space-y-4">
                 <div>
                     <h2 className="mt-3 text-center text-2xl font-bold tracking-tight text-gray-900">
-                        Admin Password Change
+                        Password Update
                     </h2>
                 </div>
                 <div>
@@ -70,27 +44,11 @@ export const Options = ({ supabase, session }) => {
                             Password updated successfully
                         </div>
                     }
-                    <form className="mt-6 space-y-6" onSubmit={handleChangePassword}>
+                    <form className="mt-6 space-y-6" onSubmit={handleResetPassword}>
                         <div className="-space-y-px rounded-md shadow-sm">
                             <div>
-                                <label htmlFor="password" className="sr-only">
-                                    Password
-                                </label>
-                                <input
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    autoComplete="current-password"
-                                    required
-                                    className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                    placeholder="Current Password"
-                                />
-                            </div>
-                            <div>
                                 <label htmlFor="new-password" className="sr-only">
-                                    Password
+                                    New Password
                                 </label>
                                 <input
                                     value={newPassword}
@@ -99,13 +57,13 @@ export const Options = ({ supabase, session }) => {
                                     name="new-password"
                                     type="password"
                                     required
-                                    className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="New Password"
                                 />
                             </div>
                             <div>
                                 <label htmlFor="confirm-password" className="sr-only">
-                                    Password
+                                    Confirm New Password
                                 </label>
                                 <input
                                     value={confirmPassword}
@@ -129,25 +87,10 @@ export const Options = ({ supabase, session }) => {
                                     aria-hidden="true"
                                 />
                             </span>
-                            Change Password
+                            Update Password
                         </button>
                     </form>
                 </div>
-                <div>
-                    <button
-                        onClick={handleLogout}
-                        className="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-300 py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-violet-200 focus:bg-violet-200"
-                    >
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                            <LockClosedIcon
-                                className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                                aria-hidden="true"
-                            />
-                        </span>
-                        Logout
-                    </button>
-                </div>
-
             </div>
         </div>
     );

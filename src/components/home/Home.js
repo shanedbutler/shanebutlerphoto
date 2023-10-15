@@ -1,6 +1,6 @@
 import { Gallery } from "../gallery/Gallery";
 
-export const Home = ({ storage }) => {
+export const Home = ({ supabase }) => {
     const params = {
         autoplay: true,
         keyboard: true,
@@ -10,6 +10,6 @@ export const Home = ({ storage }) => {
     };
 
     return (
-        <Gallery storagePath="home" storage={storage} params={params} />
+        <Gallery storagePath="home" supabase={supabase} params={params} />
     );
-}
+};
