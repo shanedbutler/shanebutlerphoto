@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { register } from 'swiper/element/bundle';
-import { getDownloadURLs } from '../../utils/storageUtils';
+import { getUrls } from '../../utils/storageUtils';
 
-export const Gallery = ({ storagePath, storage, params }) => {
+export const Gallery = ({ supabase, storagePath, params }) => {
     const [images, setImages] = useState([]);
 
     const location = useLocation();
@@ -31,8 +31,8 @@ export const Gallery = ({ storagePath, storage, params }) => {
     };
 
     useEffect(() => {
-        // Call the getDownloadURLs function to get the array of image URLs
-        getDownloadURLs(storage, storagePath).then((imageUrls) => {
+        // Call the getUrls function to get the array of image URLs
+        getUrls(supabase, storagePath).then((imageUrls) => {
             setImages(imageUrls);
         }).catch((error) => {
             console.error(error);
@@ -45,14 +45,14 @@ export const Gallery = ({ storagePath, storage, params }) => {
 
         // Initialize swiper
         swiperRef.current.initialize();
-    }, [storagePath, storage]);
+    }, [supabase, storagePath]);
 
     return (
         <div className='pb-3'>
             <swiper-container init="false" ref={swiperRef} onClick={nextSlide}>
                 {images.map((image, i) => (
                     <swiper-slide key={i}>
-                        <img src={image.url} alt={image.alt} />
+                        <img src={image} />
                     </swiper-slide>
                 ))}
             </swiper-container>
