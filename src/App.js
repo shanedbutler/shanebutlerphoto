@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Login } from './auth/Login';
+import { UpdatePassword } from './auth/UpdatePassword';
 import { Navbar } from './components/nav/Navbar';
 import { Home } from './components/home/Home';
 import { About } from './components/about/About';
-import { Login } from './auth/Login';
 import { Options } from './components/admin/Options';
-import { UpdatePassword } from './auth/UpdatePassword';
 import { Gallery } from './components/gallery/Gallery';
-import { getStorage } from 'firebase/storage';
 
-export const App = ({ app, supabase }) => {
+export const App = ({ supabase }) => {
   const [session, setSession] = useState(null)
-  const [sessionResolved, setSessionResolved] = useState(false);
 
   const [maxWidthClass, setMaxWidthClass] = useState("max-w-screen-xl");
 
@@ -23,9 +21,6 @@ export const App = ({ app, supabase }) => {
       setMaxWidthClass("max-w-screen-lg");
     }
   };
-
-  // Firebase storage
-  const storage = getStorage(app);
 
   /**
    * If the user is redirected back to the application from the password reset
@@ -57,21 +52,16 @@ export const App = ({ app, supabase }) => {
     };
   }, [supabase.auth]);
 
-  // if (!sessionResolved) {
-  //   return null;
-  // }
-
-
   return (
     <Router>
       <div className={`container mx-auto sm:px-8 px-3 h-screen ${maxWidthClass}`}>
         <Navbar session={session} />
         <Routes>
-          <Route path="/" element={<Home storage={storage} />} />
+          <Route path="/" element={<Home supabase={supabase} />} />
           <Route path="/about" element={<About />} />
-          <Route path="/architectural-interiors" element={<Gallery storage={storage} storagePath="architectural" />} />
-          <Route path="/point-of-sale" element={<Gallery storage={storage} storagePath="personal" />} />
-          <Route path="/update-password" element={<UpdatePassword supabase={supabase} />} />
+          <Route path="/architectural-interiors" element={<Gallery supabase={supabase} storagePath="architectural" />} />
+          <Route path="/point-of-sale" element={<Gallery supabase={supabase} storagePath="personal" />} />
+          <Route path="/admin/update-password" element={<UpdatePassword supabase={supabase} />} />
           {session ?
             <Route path="/admin" element={<Options supabase={supabase} session={session} />} />
             :
