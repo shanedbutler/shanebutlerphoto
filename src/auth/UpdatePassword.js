@@ -1,8 +1,7 @@
-import { PencilIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
+import { PencilIcon } from "@heroicons/react/24/solid";
 
 export const UpdatePassword = ({ supabase }) => {
-    const [email, setEmail] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(null);
@@ -12,10 +11,17 @@ export const UpdatePassword = ({ supabase }) => {
         event.preventDefault();
 
         try {
-            await supabase.auth.api.resetPasswordForEmail(email);
+            // Update the user's password
+            await supabase.auth.updateUser({ password: newPassword });
+
+            // Reset the form and show a success message
+            setNewPassword('');
+            setConfirmPassword('');
+            setError(null);
             setSuccess(true);
         } catch (error) {
-            setError(error.message);
+            console.error(error);
+            setError('Update failed, try again');
         }
     };
 
@@ -51,7 +57,7 @@ export const UpdatePassword = ({ supabase }) => {
                                     name="new-password"
                                     type="password"
                                     required
-                                    className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="New Password"
                                 />
                             </div>

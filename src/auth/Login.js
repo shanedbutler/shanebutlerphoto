@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ForgotPasswordModal } from './ForgotPasswordModal';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
+import { ForgotPasswordModal } from './ForgotPasswordModal';
 
 export const Login = ({ auth }) => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -14,7 +14,7 @@ export const Login = ({ auth }) => {
             const { _user, error } = await auth.signInWithPassword({
                 email: email,
                 password: password
-              });
+            });
 
             if (error) {
                 setError(error.message);
@@ -37,7 +37,9 @@ export const Login = ({ auth }) => {
     const handleRecovery = async (e) => {
         e.preventDefault();
         try {
-            await auth.resetPasswordForEmail(email);
+            await auth.resetPasswordForEmail(email, {
+                redirectTo: 'https://shanebutlerphoto.com/admin/update-password',
+            });
             setModalOpen(false);
         } catch (error) {
             console.error(error);

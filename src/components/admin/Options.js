@@ -18,11 +18,10 @@ export const Options = ({ supabase, session }) => {
 
         try {
             // Reauthenticate the user with their current password
-            const { user, error } = await supabase.auth.signInWithPassword({
+            const { _user, error } = await supabase.auth.signInWithPassword({
                 email: session.user.email,
                 password: password
             });
-
             if (error) {
                 throw error;
             }
