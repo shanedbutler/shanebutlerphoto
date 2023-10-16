@@ -32,22 +32,24 @@ const bucket = 'photos';
  * @returns Promise of an array of objects with url and alt properties
  */
 export const getUrls = async (supabase, path) => {
-  
   const { data, error } = await supabase
-  .storage
-  .from(bucket)
-  .list(path);
+    .storage
+    .from(bucket)
+    .list(path);
 
   if (data) {
     return _mapFilesUrls(data, supabase.storageUrl, path);
   } else {
-    console.error(error);
-    return [];
+    throw new Error(error);
   }
 };
 
 const _mapFilesUrls = (data, storageUrl, path) => {
-  return data.map((file) => {
-    return `${storageUrl}/object/public/${bucket}/${path}/${file.name}`;
+  const pathCapitalized = path.charAt(0).toUpperCase() + path.slice(1);
+  return data.map((file, i) => {
+    return {
+      url: `${storageUrl}/object/public/${bucket}/${path}/${file.name}`,
+      alt: file.metadata.alt ? file.metadata.alt : `Shane Butler ${pathCapitalized} Photo - ${i + 1}`
+    }
   });
 };
