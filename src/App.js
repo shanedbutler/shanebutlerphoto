@@ -6,7 +6,8 @@ import { Navbar } from './components/nav/Navbar';
 import { Home } from './components/home/Home';
 import { About } from './components/about/About';
 import { Options } from './components/admin/Options';
-import { Gallery } from './components/gallery/Gallery';
+import { Architectural } from './components/architectural/Architectural';
+import { Personal } from './components/personal/Personal';
 
 export const App = ({ supabase }) => {
   const [session, setSession] = useState(null)
@@ -59,8 +60,8 @@ export const App = ({ supabase }) => {
         <Routes>
           <Route path="/" element={<Home supabase={supabase} />} />
           <Route path="/about" element={<About />} />
-          <Route path="/architectural-interiors" element={<Gallery supabase={supabase} storagePath="architectural" />} />
-          <Route path="/point-of-sale" element={<Gallery supabase={supabase} storagePath="personal" />} />
+          <Route path="/architectural-interiors" element={<Architectural supabase={supabase} />} />
+          <Route path="/point-of-sale" element={<Personal supabase={supabase} />} />
           <Route path="/admin/update-password" element={<UpdatePassword supabase={supabase} />} />
           {session ?
             <Route path="/admin" element={<Options supabase={supabase} session={session} />} />
