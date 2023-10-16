@@ -1,6 +1,6 @@
 # Shane Butler Photography Portfolio CMS
 
-This repo is a from-scratch CMS built specifically for my photography portfolio website. It is being built out to be a full-fledged CMS for any image based.
+This repo is a from-scratch CMS built specifically for my photography portfolio website. It is being built out to be a CMS for any image based portfolio.
 
 ## Demo
 
