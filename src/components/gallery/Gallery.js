@@ -5,6 +5,7 @@ import { getUrls } from '../../utils/storageUtils';
 
 export const Gallery = ({ supabase, storagePath, params }) => {
     const [images, setImages] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const location = useLocation();
     const swiperRef = useRef(null);
@@ -27,13 +28,16 @@ export const Gallery = ({ supabase, storagePath, params }) => {
     // Assign passed in param or default to swiper element
     const assignParams = () => {
         let swiperParams = params ? params : defaultParams;
-        Object.assign(swiperRef.current, swiperParams);
+        if (swiperRef.current) {
+            Object.assign(swiperRef.current, swiperParams);
+        }
     };
 
     useEffect(() => {
         // Call the getUrls function to get the array of image URLs
         getUrls(supabase, storagePath).then((imageUrls) => {
             setImages(imageUrls);
+            setIsLoading(false);
         }).catch((error) => {
             console.error(error);
         });
@@ -52,11 +56,11 @@ export const Gallery = ({ supabase, storagePath, params }) => {
             <swiper-container init="false" ref={swiperRef} onClick={nextSlide}>
                 {images.map((image, i) => (
                     <swiper-slide key={i}>
-                        <img src={image} />
+                        <img src={image.url} alt={image.alt} />
                     </swiper-slide>
                 ))}
             </swiper-container>
-            {location.pathname !== "/" && (
+            {!isLoading && location.pathname !== "/" && (
                 <div className="flex justify-center items-center mt-3 text-sm">
                     <button className='mr-1' onClick={prevSlide}>
                         Previous
